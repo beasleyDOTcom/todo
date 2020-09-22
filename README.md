@@ -1,3 +1,40 @@
+
+
+
+# TODO APP
+## day 1
+I was able to switch everything over from class to functional components. 
+I ran into a few errors that I really struggled to debug where the error was not very helpful. 
+I made the mistake of typing Form.control instead of Form.Control etc. 
+By the time I actually got to styling it was 11 and I decided I need to try and work on some other things before the night is over. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
