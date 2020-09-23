@@ -8,8 +8,24 @@ I ran into a few errors that I really struggled to debug where the error was not
 I made the mistake of typing Form.control instead of Form.Control etc. 
 By the time I actually got to styling it was 11 and I decided I need to try and work on some other things before the night is over. 
 
+# day2
+I spent the majority of today trying to get the API to function correctly. Had a couple of weird bugs that were kinda hard to find. Three TA's helped me narrow it down, and Sean helped me see what it was. 
+This is right:
+ const modelMap = {
+        products: 'products',
+        categories: 'categories',
+        todos:todos
+    };
+this is what I had(what kept spinning with no error but the request wasn't going thru)
+ const modelMap = {
+        products,
+        categories,
+        todos,
+    };
+There was a todos variable but not products or categories in this module so it was getting stuck... but not really doing much about it. 
 
-
+I Finally got working on the meat of todays lab around 9 and made good progress thereafter adding "Add", and "PUT" methods on their respective add, and toggle functions. 
+Hoping to get delete working before I got to bed. 
 
 
 
