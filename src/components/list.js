@@ -13,7 +13,10 @@ export default function List(props) {
                         {item.text}
                         
                     </span>
-               
+                    <span>
+                        {item.assignee}
+                    </span>
+               <button type="button" className="close" onClick={ ()=> props.handleDelete(item._id)} aria-label="Close">Delete</button>
                 </ListGroup.Item>
             ))
             }

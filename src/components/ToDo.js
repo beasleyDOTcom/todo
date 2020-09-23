@@ -44,14 +44,20 @@ export default function TODO() {
 
     };
 
+    async function handleDelete(id){
+        let result = await axios.delete(`http://localhost:3005/api/v1/todos/${id}`);
+        let newList = list.filter(item => item._id !== id);
+        return setList(newList);
+    }
+
     useEffect(() => {
-        async function getSeedData() {
+        async function _getSeedData() {
             let response = {};
             response = await axios.get('http://localhost:3005/api/v1/todos')
             console.log('this is the response back from api', response)
             setList(response.data.results)
         }
-        getSeedData();
+        _getSeedData();
     }, []);
     return (
         <>
@@ -91,6 +97,7 @@ export default function TODO() {
                             <TodoList
                                 list={list}
                                 handleComplete={toggleComplete}
+                                handleDelete={handleDelete}
                             />
                         </div>
                     </Col>
