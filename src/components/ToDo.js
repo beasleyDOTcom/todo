@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
+// import ajax from './ajax.js';
 
 import './todo.scss';
 
@@ -17,14 +18,14 @@ export default function TODO() {
 
     const addItem = (item) => {
         item.complete = false;
-       
-        async function _addItem(){
+
+        async function _addItem() {
             let result = await axios.post('http://localhost:3005/api/v1/todos', item)
-            item.id= result.data._id;
-            console.log('this is item', item)
+            item._id = result.data._id;
+            setList([...list, item]);
         }
         _addItem();
-        setList([...list, item]);
+ 
     }
 
     const toggleComplete = id => {
@@ -35,7 +36,7 @@ export default function TODO() {
             let newList = list.map(listItem => listItem._id === item._id ? item : listItem);
             setList(newList)
         }
-        async function _toggleComplete(){
+        async function _toggleComplete() {
             console.log('this is the PUT REQUEST', item)
             let result = await axios.put(`http://localhost:3005/api/v1/todos/${item._id}`, item)
             console.log('this is the result from the PUT', result)
@@ -44,8 +45,8 @@ export default function TODO() {
 
     };
 
-    async function handleDelete(id){
-        let result = await axios.delete(`http://localhost:3005/api/v1/todos/${id}`);
+    async function handleDelete(id) {
+        await axios.delete(`http://localhost:3005/api/v1/todos/${id}`);
         let newList = list.filter(item => item._id !== id);
         return setList(newList);
     }
@@ -93,13 +94,11 @@ export default function TODO() {
                         </Card>
                     </Col>
                     <Col md={8}>
-                        <div>
-                            <TodoList
-                                list={list}
-                                handleComplete={toggleComplete}
-                                handleDelete={handleDelete}
-                            />
-                        </div>
+                        <TodoList
+                            list={list}
+                            handleComplete={toggleComplete}
+                            handleDelete={handleDelete}
+                        />
                     </Col>
 
                 </Row>
