@@ -10,7 +10,7 @@ import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 
 import './todo.scss';
-let count = 0;
+
 export default function TODO() {
 
     const [list, setList] = useState([]);
@@ -29,11 +29,18 @@ export default function TODO() {
 
     const toggleComplete = id => {
         let item = list.filter(i => i._id === id)[0] || {};
+
         if (item._id) {
             item.complete = !item.complete;
             let newList = list.map(listItem => listItem._id === item._id ? item : listItem);
             setList(newList)
         }
+        async function _toggleComplete(){
+            console.log('this is the PUT REQUEST', item)
+            let result = await axios.put(`http://localhost:3005/api/v1/todos/${item._id}`, item)
+            console.log('this is the result from the PUT', result)
+        }
+        _toggleComplete();
 
     };
 
