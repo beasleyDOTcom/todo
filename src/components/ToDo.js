@@ -9,22 +9,24 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 
+
 import './todo.scss';
+import useAjax from './useAjaxHook.js';
 
 export default function TODO() {
-
+    const url='http://localhost:3005/api/v1/todos/';
     const [list, setList] = useState([]);
 
     const addItem = (item) => {
         item.complete = false;
-       
-        async function _addItem(){
-            let result = await axios.post('http://localhost:3005/api/v1/todos', item)
-            item.id= result.data._id;
-            console.log('this is item', item)
+
+        async function _addItem() {
+            let response = await useAjax({url, body:item, method: 'post'})
+            item._id = response.data._id;
+            setList([...list, item]);
         }
         _addItem();
-        setList([...list, item]);
+ 
     }
 
     const toggleComplete = id => {
@@ -35,26 +37,26 @@ export default function TODO() {
             let newList = list.map(listItem => listItem._id === item._id ? item : listItem);
             setList(newList)
         }
-        async function _toggleComplete(){
-            console.log('this is the PUT REQUEST', item)
-            let result = await axios.put(`http://localhost:3005/api/v1/todos/${item._id}`, item)
-            console.log('this is the result from the PUT', result)
+        async function _toggleComplete() {
+            let result = await useAjax({url:`${url}${item._id}`, body:item, method: 'put'});
         }
         _toggleComplete();
 
     };
 
-    async function handleDelete(id){
-        let result = await axios.delete(`http://localhost:3005/api/v1/todos/${id}`);
-        let newList = list.filter(item => item._id !== id);
-        return setList(newList);
+    function handleDelete(id){
+        async function _handleDelete(id) {
+            let response = await useAjax({url:url+id, method:'delete'});
+            let newList = list.filter(item => item._id !== id);
+            return setList(newList);
+        }
+        _handleDelete(id);
     }
 
     useEffect(() => {
+
         async function _getSeedData() {
-            let response = {};
-            response = await axios.get('http://localhost:3005/api/v1/todos')
-            console.log('this is the response back from api', response)
+            let response = await useAjax({url, method: 'get'});
             setList(response.data.results)
         }
         _getSeedData();
@@ -66,9 +68,6 @@ export default function TODO() {
                     <Navbar.Brand href="#home">Home</Navbar.Brand>
 
                 </Navbar>
-                {/* <h2>
-                    There are {list.filter(item => !item.complete).length} Items To Complete
-                </h2> */}
             </header>
             <Container>
 
@@ -93,13 +92,11 @@ export default function TODO() {
                         </Card>
                     </Col>
                     <Col md={8}>
-                        <div>
-                            <TodoList
-                                list={list}
-                                handleComplete={toggleComplete}
-                                handleDelete={handleDelete}
-                            />
-                        </div>
+                        <TodoList
+                            list={list}
+                            handleComplete={toggleComplete}
+                            handleDelete={handleDelete}
+                        />
                     </Col>
 
                 </Row>

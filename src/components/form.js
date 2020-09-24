@@ -1,24 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
  
+import useForm from './useFormHook.js';
+
 
 function FormComponent(props) {
-    const [item, setItem] = useState({ item: {} });
-    const handleInputChange = event => {
-        setItem({ ...item, [event.target.name]: event.target.value })
-    };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(item, 'item is here')
+    // const handleInputChange = event => {
+    //     setItem({ ...item, [event.target.name]: event.target.value })
+    // };
 
-        event.target.reset();
-        ///////////// I don't know why having e.target.reset() is giving me so much trouble
-        props.handleSubmit(item);
-        // const item = {};
-        setItem({});
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     console.log(item, 'item is here')
+
+    //     event.target.reset();
+    //     ///////////// I don't know why having e.target.reset() is giving me so much trouble
+    //     props.handleSubmit(item);
+    //     // const item = {};
+    //     setItem({});
+    // }
+    // const [item, setItem] = useState({ item: {} });
+    const { handleInputChange, handleSubmit } = useForm(submitFunction);
+    
+
+    function submitFunction (item){
+       return props.handleSubmit(item);
     }
     return (
         <Container>
