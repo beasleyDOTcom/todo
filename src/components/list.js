@@ -14,7 +14,7 @@ export default function List(props) {
                         <Toast autohide={false} onClose={()=>props.handleDelete(item._id)}
                             onClick={() => props.handleComplete(item._id)}>
                             <Toast.Header>
-                                <Badge pill variant={item.complete ? "success" : "danger"}>{item.complete ? "Pending" : "Complete"}</Badge>
+                                <Badge pill variant={item.complete ? "danger" : "success"}>{item.complete ? "Complete" : "Pending" }</Badge>
                                 <strong className="mr-auto">{item.assignee}</strong>
                                 {/* <small>{item.complete ? "Pending" : "Complete"} </small> */}
                             </Toast.Header>
