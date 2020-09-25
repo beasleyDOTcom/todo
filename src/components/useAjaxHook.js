@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import axios from 'axios';
 
 export default function useAjax (obj){
@@ -7,6 +5,7 @@ export default function useAjax (obj){
     // const [returnData, setReturnData] = useState([]);
   
     async function getAjax(url){
+        console.log('inside of getAjax', url)
         return await axios.get(url)
     }
     
