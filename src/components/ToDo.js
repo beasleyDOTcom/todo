@@ -7,7 +7,6 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import axios from 'axios';
 
 
 import './todo.scss';
@@ -22,7 +21,10 @@ export default function TODO() {
 
         async function _addItem() {
             let response = await useAjax({url, body:item, method: 'post'})
+            // let response = await axios.get(url)
+            console.log('result from addItem', response)
             item._id = response.data._id;
+            
             setList([...list, item]);
         }
         _addItem();
@@ -38,7 +40,7 @@ export default function TODO() {
             setList(newList)
         }
         async function _toggleComplete() {
-            let result = await useAjax({url:`${url}${item._id}`, body:item, method: 'put'});
+            await useAjax({url:`${url}${item._id}`, body:item, method: 'put'});
         }
         _toggleComplete();
 
@@ -46,7 +48,7 @@ export default function TODO() {
 
     function handleDelete(id){
         async function _handleDelete(id) {
-            let response = await useAjax({url:url+id, method:'delete'});
+            await useAjax({url:url+id, method:'delete'});
             let newList = list.filter(item => item._id !== id);
             return setList(newList);
         }
@@ -56,7 +58,9 @@ export default function TODO() {
     useEffect(() => {
 
         async function _getSeedData() {
+            console.log('inide of _getSeedData')
             let response = await useAjax({url, method: 'get'});
+            console.log('this is the response from original get', response)
             setList(response.data.results)
         }
         _getSeedData();
